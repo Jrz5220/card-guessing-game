@@ -1,4 +1,3 @@
-package lab2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +7,7 @@ import java.util.Scanner;
 public class GuessCardGame {
 	
 	private int p1Points = 0, p2Points = 0;
+	int bagCapacity;
 	private ArrayList<String> gameCards;
 	private ArrayList<String> bagOfCards;
 	private ArrayList<String> bagCopy;
@@ -15,16 +15,18 @@ public class GuessCardGame {
 	private ArrayList<String> p2CorrectAnswers;
 	
 	public GuessCardGame() {
+		bagCapacity = 6;
 		gameCards = new ArrayList<>(Arrays.asList("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
-		bagOfCards = new ArrayList<>(6);
-		bagCopy = new ArrayList<>(6);
-		p1CorrectAnswers = new ArrayList<>(6);
-		p2CorrectAnswers = new ArrayList<>(6);
+		bagOfCards = new ArrayList<>(bagCapacity);
+		bagCopy = new ArrayList<>(bagCapacity);
+		p1CorrectAnswers = new ArrayList<>(bagCapacity);
+		p2CorrectAnswers = new ArrayList<>(bagCapacity);
 	}
 	
-	public GuessCardGame(ArrayList<String> newCards, int bagLimit) throws CardGameBagException {
+	public GuessCardGame(ArrayList<String> newCards, int newBagCapacity) throws CardGameBagException {
 		if(bagLimit >= newCards.size())
 			throw new CardGameBagException();
+		int bagCapacity = newBagCapacity;
 		for(int i = 0; i < newCards.size(); i++) {
 			newCards.set(i, newCards.get(i).toUpperCase());
 		}
@@ -54,7 +56,7 @@ public class GuessCardGame {
 	
 	private void addCardsToBag(ArrayList<String> newCards, ArrayList<String> newBag, ArrayList<String> newBagCopy) {
 		Random rand = new Random();
-		for(int i = 0; i < newCards.size(); i++) {
+		for(int i = 0; i < bagCapacity; i++) {
 			int randCard = rand.nextInt(newCards.size());
 			newBag.add(newCards.get(randCard));
 			newBagCopy.add(newCards.get(randCard));
@@ -77,23 +79,6 @@ public class GuessCardGame {
 			System.out.println("Incorrect");
 		System.out.println("Remaining cards in the bag: " + bagOfCards.size());
 	}
-
-	private void displayGameResults(ArrayList<String> p1Answers, ArrayList<String> p2Answers, int points1, int points2) {
-		System.out.println("\nPlayer 1 points: " + points1 + " " + p1Answers.toString());
-		System.out.println("Player 2 points: " + points2 + " " + p2Answers.toString() + "\n");
-		if(points1 > points2)
-			System.out.println("Player 1 wins!");
-		else if(points1 < points2)
-			System.out.println("Player 2 wins!");
-		else
-			System.out.println("Game ends in a tie");
-	}
-	
-	private void displayContentsOfBag(ArrayList<String> bagCopy2) {
-		for(String card : bagCopy) {
-			System.out.print(card + " ");
-		}
-	}
 	
 	private boolean isDuplicateAnswer(ArrayList<String> p1Answers, ArrayList<String> p2Answers, String card) {
 		return (p1Answers.contains(card) || p2Answers.contains(card));
@@ -115,6 +100,27 @@ public class GuessCardGame {
 
 	private boolean isCardInBag(String card, ArrayList<String> bag) {
 		return (bag.contains(card));
+	}
+	
+	private void displayGameResults(ArrayList<String> p1Answers, ArrayList<String> p2Answers, int points1, int points2) {
+		System.out.println("\nPlayer 1 points: " + points1 + " " + p1Answers.toString());
+		System.out.println("Player 2 points: " + points2 + " " + p2Answers.toString() + "\n");
+		if(points1 > points2)
+			System.out.println("Player 1 wins!");
+		else if(points1 < points2)
+			System.out.println("Player 2 wins!");
+		else
+			System.out.println("Game ends in a tie");
+	}
+	
+	private void displayContentsOfBag(ArrayList<String> bagCopy2) {
+		for(String card : bagCopy) {
+			System.out.print(card + " ");
+		}
+	}
+	
+	public int getBagCapacity() {
+		return bagCapacity;
 	}
 
 	public ArrayList<String> getGameCards() {
