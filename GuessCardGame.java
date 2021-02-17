@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class GuessCardGame {
 	
 	private int p1Points = 0, p2Points = 0;
-	int bagCapacity;
+	private int bagCapacity;
 	private ArrayList<String> gameCards;
 	private ArrayList<String> bagOfCards;
 	private ArrayList<String> bagCopy;
@@ -24,17 +24,17 @@ public class GuessCardGame {
 	}
 	
 	public GuessCardGame(ArrayList<String> newCards, int newBagCapacity) throws CardGameBagException {
-		if(bagLimit >= newCards.size())
+		if(newBagCapacity >= newCards.size())
 			throw new CardGameBagException();
-		int bagCapacity = newBagCapacity;
+		bagCapacity = newBagCapacity;
 		for(int i = 0; i < newCards.size(); i++) {
 			newCards.set(i, newCards.get(i).toUpperCase());
 		}
 		gameCards = newCards;
-		bagOfCards = new ArrayList<>(bagLimit);
-		bagCopy = new ArrayList<>(bagLimit);
-		p1CorrectAnswers = new ArrayList<>(bagLimit);
-		p2CorrectAnswers = new ArrayList<>(bagLimit);
+		bagOfCards = new ArrayList<>(newBagCapacity);
+		bagCopy = new ArrayList<>(newBagCapacity);
+		p1CorrectAnswers = new ArrayList<>(newBagCapacity);
+		p2CorrectAnswers = new ArrayList<>(newBagCapacity);
 	}
 	
 	public void startGame() {
